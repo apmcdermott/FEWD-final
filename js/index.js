@@ -6,7 +6,7 @@
 // if it lacks the "correct" class, user gets a O NOES message and their score stays the same
 // NEXT button to advance to the next one
 
-//master array with all the options, even if they're disabled
+// master array contains all the possible options
 var masterArray = [
 	{steps:0, name:"unison"},
 	{steps:1, name:"min2"},
@@ -21,38 +21,15 @@ var masterArray = [
 	{steps:10, name:"min7"},
 	{steps:11, name:"maj7"},
 	{steps:12, name:"octave"}
-],dynamicArray=[];
+],mutableMasterArray=[],dynamicArray=[];
 
-// builds an adaptive array depending on what the user has enabled/disabled
-
-/*
-// uses the masterArray for all the possible options
+// builds an dynamic array based on the IDs of buttons w/ the class "enabled"
 	function buildArray() {
-	var availableIntervals = masterArray;
-	dynamicArray.length=0;
-// for each disabled button... Will did some sorcery here and idk exactly what it does
-// I think it finds the index of the matching id, but that's no good bc editing the array changes the indices of all the things. The "steps" values always match up wtih the proper "name" values, though, so maybe I can use that somehow.
-	$('button.disabled').each(function(index,element){
-		dynamicArray.push(masterArray.splice(masterArray.indexOfIdInObject($(element).parent().attr('id')),1).pop());
-	});
-	console.log(dynamicArray);
-}
-
-Array.prototype.indexOfIdInObject=function(id){
-	var res=-1;
-	this.forEach(function(el,i){
-		if(el.name==id){
-			res=i;
-		}
-	});
-	return res;
-};
-*/
-
-	function buildAdditiveArray() {
 		dynamicArray=[];
 		$('button.enabled').each(function(index,element){
-			dynamicArray.push(masterArray.splice(masterArray.indexOfIdInObject($(element).attr('id')),1).pop());
+			// creates a working copy of the master array
+			mutableMasterArray.push.apply(mutableMasterArray, masterArray);
+			dynamicArray.push(mutableMasterArray.splice(mutableMasterArray.indexOfIdInObject($(element).attr('id')),1).pop());
 		});
 		console.log(dynamicArray);
 	}
@@ -94,7 +71,7 @@ $(document).ready(function() {
 	//if the user clicks on a <i> with fa-check-square-o, then the <i> class changes to fa-square-o and the button is given the "disabled" class
 	$('i').on('click', function(){
 		$(this).toggleClass('fa-check-square-o').toggleClass('fa-square-o').parent().toggleClass('enabled').toggleClass('disabled');
-		buildAdditiveArray();
+		buildArray();
 	});
 	// the dynamicArray is rebuilt with only the intervals w/ the "enabled" class
 
