@@ -44,28 +44,24 @@ var masterArray = [
 	return res;
 };
 
-// this needs to be fixed once I get the dynamic array working
+// 52 is the max, 40 is the min --> these correspond to the audio sample, which are named based on their note's position on an 88-key keyboard
+function getRandomSample(){
+	var randNum1 = Math.floor(Math.random()*(52-40+1)+40);
+	$('.sample.first').html('<source src="audio/'+randNum1+'.mp3" type="audio/mpeg"> <source src="audio/'+randNum1+'.ogg" type="audio/ogg"> <source src="audio/'+randNum1+'.wav" type="audio/wav"> Your browser does not support the audio element.');
+	var randNum2 = Math.floor(Math.random()*(52-40+1)+40);
+	$('.sample.second').html('<source src="audio/'+randNum2+'.mp3" type="audio/mpeg"> <source src="audio/'+randNum2+'.ogg" type="audio/ogg"> <source src="audio/'+randNum2+'.wav" type="audio/wav"> Your browser does not support the audio element.');
+}
+
+// play the two samples one after another (how do I do this?)
 function getRandomInterval() {
-	var randomNumber = Math.floor(Math.random() * 100);
-	var activeInterval = intervals[0];
-	if (randomNumber < 25) {
-		$('.sample').html('<source src="'+intervals[0]+'.mp3" type="audio/mpeg"> <source src="'+intervals[0]+'.ogg" type="audio/ogg"> Your browser does not support the audio element.');
-	}
-	else if (randomNumber < 50) {
-		$('.sample').html('<source src="'+intervals[1]+'.mp3" type="audio/mpeg"> <source src="'+intervals[1]+'.ogg" type="audio/ogg"> Your browser does not support the audio element.');
-	}
-	else if (randomNumber < 75) {
-		$('.sample').html('<source src="'+intervals[2]+'.mp3" type="audio/mpeg"> <source src="'+intervals[2]+'.ogg" type="audio/ogg"> Your browser does not support the audio element.');
-	}
-	else if (randomNumber < 100) {
-		$('.sample').html('<source src="'+intervals[3]+'.mp3" type="audio/mpeg"> <source src="'+intervals[3]+'.ogg" type="audio/ogg"> Your browser does not support the audio element.');
-	}
+	getRandomSample();
 }
 
 $(document).ready(function() {
 	$('.gamestart').on('click', function(){
 		$(this).toggleClass('hide');
 		$("audio").toggleClass('hide');
+		getRandomInterval();
 	});
 
 	//if the user clicks on a <i> with fa-check-square-o, then the <i> class changes to fa-square-o and the button is given the "disabled" class
