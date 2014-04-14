@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    	<meta charset="utf-8">
+    	<meta name="description" content="Your description goes here">
+    	<meta name="keywords" content="one, two, three">
+	
+		<title>Blank Template</title>
+		
+		<!-- external links -->
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<header>
+				<h1>interval training wooo</h1>
+				<p class="score">1 out 10 - 10% (how many you got correct)</p>
+			</header> 
+			<div id="controls">
+				<button class="button gamestart"><i class="fa fa-play-circle"></i> Click here to start!</button>
+				<audio controls class="hide sample">
+					<source src="audio/min2.mp3" type="audio/mpeg">
+					Your browser does not support the audio element.
+				</audio>
+			</div>
+
+			<div id="check">
+				<p>(status will go here)</p>
+			</div>
+
+			<div id="intervals" class="clearfix">
+				<div class="int-left">
+					<div>
+						<button id="unison" class="button disabled"><i class="fa fa-fw fa-square-o"></i> Unison</button>
+					</div>
+					<div>
+						<button id="min2" class="button disabled"><i class="fa fa-fw fa-square-o"></i> Minor 2nd</button>
+					</div>
+					<div>
+						<button id="maj2" class="button enabled"><i class="fa fa-fw fa-check-square-o"></i> Major 2nd</button>
+					</div>
+					<div>
+						<button id="min3" class="button disabled"><i class="fa fa-fw fa-square-o"></i> Minor 3rd</button>
+					</div>
+					<div>
+						<button id="maj3" class="button disabled"><i class="fa fa-fw fa-square-o"></i> Major 3rd</button>
+					</div>
+				</div>
+				<div class="int-mid">
+					<div>
+						<button id="perf4" class="button enabled"><i class="fa fa-fw fa-check-square-o"></i> Perfect 4th</button>
+					</div>
+					<div>
+						<button id="tritone" class="button enabled"><i class="fa fa-fw fa-check-square-o"></i> Tritone</button>
+					</div>
+					<div>
+						<button id="perf5" class="button enabled"><i class="fa fa-fw fa-check-square-o"></i> Perfect 5th</button>
+					</div>	
+				</div>
+				<div class="int-right">
+					<div>
+						<button id="min6" class="button enabled"><i class="fa fa-fw fa-check-square-o"></i> Minor 6th</button>
+					</div>	
+					<div>
+						<button id="maj6" class="button enabled"><i class="fa fa-fw fa-check-square-o"></i> Major 6th</button>
+					</div>	
+					<div>
+						<button id="min7" class="button enabled"><i class="fa fa-fw fa-check-square-o"></i> Minor 7th</button>
+					</div>
+					<div>
+						<button id="maj7" class="button enabled"><i class="fa fa-fw fa-check-square-o"></i> Major 7th</button>
+					</div>
+					<div>
+						<button id="octave" class="button enabled"><i class="fa fa-fw fa-check-square-o"></i> Octave</button>
+					</div>			
+				</div>
+			</div>
+			<footer>
+				&copy; Footer Goes Here
+			</footer>
+		</div>
+		<!-- #container --> 
+		<script src="js/index.js"></script>
+	</body>
+</html>
