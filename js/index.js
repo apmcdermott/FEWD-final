@@ -47,19 +47,29 @@ var masterArray = [
 // 52 is the max, 40 is the min --> these correspond to the audio sample, which are named based on their note's position on an 88-key keyboard
 // play the two samples one after another (how do I do this?)
 // also needs to compare randNum1 with randNum2 and determine the difference --> "steps" in the array's objects (i.e. 3 steps apart = min3)
+
 var stepDiff = 0;
 var intName = "";
 function getRandomInterval(){
-	var randNum1 = Math.floor(Math.random()*(dynamicArray.length)+40);
-	var randNum2 = Math.floor(Math.random()*(dynamicArray.length)+40);
-	stepDiff = randNum1 - randNum2;
-	var intName=dynamicArray[Math.abs(dynamicArray.indexOfIdInObject(stepDiff))].named;
+	if (dynamicArray.length > 1){
+		var randNum1 = Math.floor(Math.random()*(dynamicArray.length)+40);
+		var randNum2 = Math.floor(Math.random()*(dynamicArray.length)+40);
+		stepDiff = randNum1 - randNum2;
+		var intName=dynamicArray[Math.abs(dynamicArray.indexOfIdInObject(stepDiff))].named;
+	}
+// ISSUE: if there's only 1 interval selected, shit goes weird. Potential solution follows. It's messy tho :-/
+	else {
+		var randNum1 = Math.floor(Math.random()*((52-dynamicArray[0].steps)-40+1)+40);
+		var randNum2 = randNum1 + dynamicArray[0].steps;
+		var intName=dynamicArray[0].named;
+	}
 	$("#"+intName).addClass('correct');
 	$('.sample.first').empty().append('<audio controls><source src="audio/'+randNum1+'.mp3" type="audio/mpeg"> <source src="audio/'+randNum1+'.ogg" type="audio/ogg"> <source src="audio/'+randNum1+'.wav" type="audio/wav"> Your browser does not support the audio element.</audio>');
-	$('.sample.second').append('<audio controls><source src="audio/'+randNum2+'.mp3" type="audio/mpeg"> <source src="audio/'+randNum2+'.ogg" type="audio/ogg"> <source src="audio/'+randNum2+'.wav" type="audio/wav"> Your browser does not support the audio element.</audio>');
+	$('.sample.second').empty().append('<audio controls><source src="audio/'+randNum2+'.mp3" type="audio/mpeg"> <source src="audio/'+randNum2+'.ogg" type="audio/ogg"> <source src="audio/'+randNum2+'.wav" type="audio/wav"> Your browser does not support the audio element.</audio>');
 //	console.log(randNum1, randNum2);
 }
 
+// on click, needs to remove all "correct" classes
 $(document).ready(function() {
 	$('.gamestart').on('click', function(){
 		$(this).toggleClass('hide');
@@ -68,12 +78,20 @@ $(document).ready(function() {
 		getRandomInterval();
 	});
 
+	if ($(".enabled").length > 0){
 	//if the user clicks on a <i> with fa-check-square-o, then the <i> class changes to fa-square-o and the button is given the "disabled" class
-	$('i.fa-fw').on('click', function(){
-		$(this).toggleClass('fa-check-square-o').toggleClass('fa-square-o').parent().toggleClass('enabled').toggleClass('disabled');
-		buildArray();
-		getRandomInterval();
-	});
-	// the dynamicArray is rebuilt with only the intervals w/ the "enabled" class
+		$('i.fa-fw').on('click', function(){
+			$(this).toggleClass('fa-check-square-o').toggleClass('fa-square-o').parent().toggleClass('enabled').toggleClass('disabled');
+			buildArray();
+			getRandomInterval();
+		});
+	}
+	else {
+		$('i.fa-fw').on('click', function(){
+			alert("You have to choose at least one!");
+		});
+	}
+
+
 
 });
