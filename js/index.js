@@ -26,7 +26,7 @@ var masterArray = [
 // builds an dynamic array based on the IDs of buttons w/ the class "enabled"
 	function buildArray() {
 		dynamicArray=[];
-		$('button.enabled').each(function(index,element){
+		$('.button.enabled').each(function(index,element){
 			// creates a working copy of the master array
 			mutableMasterArray.push.apply(mutableMasterArray, masterArray);
 			dynamicArray.push(mutableMasterArray.splice(mutableMasterArray.indexOfIdInObject($(element).attr('id')),1).pop());
@@ -51,22 +51,26 @@ var masterArray = [
 var stepDiff = 0;
 var intName = "";
 function getRandomInterval(){
-	if (dynamicArray.length > 1){
-		var randNum1 = Math.floor(Math.random()*(dynamicArray.length)+40);
-		var randNum2 = Math.floor(Math.random()*(dynamicArray.length)+40);
-		stepDiff = randNum1 - randNum2;
-		var intName=dynamicArray[Math.abs(dynamicArray.indexOfIdInObject(stepDiff))].named;
+	dynamicArray
+// choose interval, then define notes (reverse from before)
+	intName = dynamicArray[Math.round(Math.random()*(dynamicArray.length-1))].named;
+	intSteps = dynamicArray[dynamicArray.indexOfIdInObject(intName)].steps;
+	var randNum1 = Math.round(Math.random()*(52-40)+40);
+	var randNum2 = 0
+// shift if it goes off the octave keyboard area
+	var intShift = function(start, steps) {
+		if (start + steps <= 52){
+			randNum2 = start + steps;
+		}
+		else {
+			intShift (start-1, steps);
+		}
 	}
-// ISSUE: if there's only 1 interval selected, shit goes weird. Potential solution follows. It's messy tho :-/
-	else {
-		var randNum1 = Math.floor(Math.random()*((52-dynamicArray[0].steps)-40+1)+40);
-		var randNum2 = randNum1 + dynamicArray[0].steps;
-		var intName=dynamicArray[0].named;
-	}
+	intShift(randNum1, intSteps);
 	$("#"+intName).addClass('correct');
 	$('.sample.first').empty().append('<audio controls><source src="audio/'+randNum1+'.mp3" type="audio/mpeg"> <source src="audio/'+randNum1+'.ogg" type="audio/ogg"> <source src="audio/'+randNum1+'.wav" type="audio/wav"> Your browser does not support the audio element.</audio>');
 	$('.sample.second').empty().append('<audio controls><source src="audio/'+randNum2+'.mp3" type="audio/mpeg"> <source src="audio/'+randNum2+'.ogg" type="audio/ogg"> <source src="audio/'+randNum2+'.wav" type="audio/wav"> Your browser does not support the audio element.</audio>');
-//	console.log(randNum1, randNum2);
+	console.log(randNum1, randNum2);
 }
 
 // on click, needs to remove all "correct" classes
@@ -75,6 +79,12 @@ $(document).ready(function() {
 		$(this).toggleClass('hide');
 		$(".sample").toggleClass('hide');
 		buildArray();
+		getRandomInterval();
+	});
+
+// reset, loads new interval
+	$('#reset').on('click', function(){
+		$('.button').removeClass('correct');
 		getRandomInterval();
 	});
 
