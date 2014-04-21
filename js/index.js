@@ -53,9 +53,9 @@ var intName = "";
 function getRandomInterval(){
 	dynamicArray
 // choose interval, then define notes (reverse from before)
-	intName = dynamicArray[Math.round(Math.random()*(dynamicArray.length-1))].named;
+	intName = dynamicArray[Math.floor(Math.random()*(dynamicArray.length))].named;
 	intSteps = dynamicArray[dynamicArray.indexOfIdInObject(intName)].steps;
-	var randNum1 = Math.round(Math.random()*(52-40)+40);
+	var randNum1 = Math.floor(Math.random()*(52-40)+40);
 	var randNum2 = 0
 // shift if it goes off the octave keyboard area
 // potential alternate solution: record two buffer octaves-- one above, and one below
