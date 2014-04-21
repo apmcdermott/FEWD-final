@@ -58,12 +58,16 @@ function getRandomInterval(){
 	var randNum1 = Math.round(Math.random()*(52-40)+40);
 	var randNum2 = 0
 // shift if it goes off the octave keyboard area
+// potential alternate solution: record two buffer octaves-- one above, and one below
+// but keep the starting note between 40 and 52
 	var intShift = function(start, steps) {
+		i = 0;
 		if (start + steps <= 52){
-			randNum2 = start + steps;
+			randNum2 = start + (steps-i);
 		}
 		else {
 			intShift (start-1, steps);
+			i++;
 		}
 	}
 	intShift(randNum1, intSteps);
@@ -73,7 +77,11 @@ function getRandomInterval(){
 	console.log(randNum1, randNum2);
 }
 
-// on click, needs to remove all "correct" classes
+function reset(){
+					$('.button').removeClass('correct');
+			getRandomInterval();
+		}
+
 $(document).ready(function() {
 	$('.gamestart').on('click', function(){
 		$(this).toggleClass('hide');
@@ -82,16 +90,16 @@ $(document).ready(function() {
 		getRandomInterval();
 	});
 
-// reset, loads new interval
+// "reset" (loads new interval)
 	$('#reset').on('click', function(){
-		$('.button').removeClass('correct');
-		getRandomInterval();
+		reset()
 	});
 
+// enable/disable options
 	if ($(".enabled").length > 0){
 	//if the user clicks on a <i> with fa-check-square-o, then the <i> class changes to fa-square-o and the button is given the "disabled" class
 		$('i.fa-fw').on('click', function(){
-			$(this).toggleClass('fa-check-square-o').toggleClass('fa-square-o').parent().toggleClass('enabled').toggleClass('disabled');
+			$(this).toggleClass('fa-check-square-o').toggleClass('fa-square-o').siblings('button').toggleClass('enabled').toggleClass('disabled');
 			buildArray();
 			getRandomInterval();
 		});
@@ -102,6 +110,15 @@ $(document).ready(function() {
 		});
 	}
 
-
+	// in/correct selection and reset
+	$('.button.enabled').on('click', function(){
+		if ($(this).hasClass('correct')){
+			alert("Correct! You win at music!")
+			reset();
+		}
+		else {
+			alert("Try again.");
+		}
+	});
 
 });
